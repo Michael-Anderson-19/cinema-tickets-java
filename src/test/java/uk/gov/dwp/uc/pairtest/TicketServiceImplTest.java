@@ -10,7 +10,7 @@ import thirdparty.seatbooking.SeatReservationService;
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
 import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -100,7 +100,7 @@ public class TicketServiceImplTest {
         Mockito.verify(ticketPaymentService, Mockito.times(1)).makePayment(eq(VALID_ACCOUNT_ID), integerCaptor.capture());
 
         int actualCost = integerCaptor.getValue();
-        assert(predictedCost == actualCost);
+        assertEquals(predictedCost,actualCost);
     }
 
     @Test
@@ -117,6 +117,6 @@ public class TicketServiceImplTest {
         Mockito.verify(seatReservationService, Mockito.times(1)).reserveSeat(eq(VALID_ACCOUNT_ID), integerCaptor.capture());
 
         final int actualSeatCount = integerCaptor.getValue();
-        assert (predictedSeats == actualSeatCount);
+        assertEquals(predictedSeats,actualSeatCount);
     }
 }
