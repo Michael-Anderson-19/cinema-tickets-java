@@ -25,7 +25,7 @@ public class TicketServiceImplTest {
     @Captor
     ArgumentCaptor<Integer> integerCaptor;
     @Rule
-    private final ExpectedException thrown = ExpectedException.none();
+    public final ExpectedException thrown = ExpectedException.none();
 
     private final Long VALID_ACCOUNT_ID = 1L;
     private final Long INVALID_ACCOUNT_ID = -1L;
@@ -52,7 +52,7 @@ public class TicketServiceImplTest {
         TicketTypeRequest ticket1 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 2);
 
         thrown.expect(InvalidPurchaseException.class);
-        thrown.expectMessage("Invalid account"); //TODO change
+        thrown.expectMessage("Invalid account");
         ticketService.purchaseTickets(INVALID_ACCOUNT_ID, ticket1);
     }
 
@@ -61,7 +61,8 @@ public class TicketServiceImplTest {
         TicketTypeRequest ticket1 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 0);
 
         thrown.expect(InvalidPurchaseException.class);
-        thrown.expectMessage("Invalid ticket request"); //TODO change
+        thrown.expectMessage("Invalid ticket request - number of tickets must be between 1 and 20");
+
         ticketService.purchaseTickets(VALID_ACCOUNT_ID, ticket1);
     }
 
@@ -70,7 +71,7 @@ public class TicketServiceImplTest {
         TicketTypeRequest ticket1 = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 21);
 
         thrown.expect(InvalidPurchaseException.class);
-        thrown.expectMessage("Invalid ticket request");
+        thrown.expectMessage("Invalid ticket request - number of tickets must be between 1 and 20");
 
         ticketService.purchaseTickets(VALID_ACCOUNT_ID, ticket1);
     }
@@ -81,7 +82,7 @@ public class TicketServiceImplTest {
         TicketTypeRequest infantTickets = new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 1);
 
         thrown.expect(InvalidPurchaseException.class);
-        thrown.expectMessage("Invalid ticket request - No adult is present"); //TODO implement
+        thrown.expectMessage("Invalid ticket request - All ticket requests must contain at least 1 adult");
 
         ticketService.purchaseTickets(VALID_ACCOUNT_ID, childTickets,infantTickets);
     }
