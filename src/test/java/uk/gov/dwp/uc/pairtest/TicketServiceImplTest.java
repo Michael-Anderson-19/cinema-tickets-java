@@ -88,6 +88,28 @@ public class TicketServiceImplTest {
     }
 
     @Test
+    public void given_OnlyAnInfantTicketRequest_When_CallingPurchaseTickets_Then_ThrowException(){
+        TicketTypeRequest infantTickets = new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 1);
+
+        thrown.expect(InvalidPurchaseException.class);
+        thrown.expectMessage("Invalid ticket request - All ticket requests must contain at least 1 adult");
+
+        ticketService.purchaseTickets(VALID_ACCOUNT_ID,infantTickets);
+    }
+
+    @Test
+    public void given_OnlyAChildTicketRequest_When_CallingPurchaseTickets_Then_ThrowException(){
+        TicketTypeRequest childTickets = new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 2);
+
+        thrown.expect(InvalidPurchaseException.class);
+        thrown.expectMessage("Invalid ticket request - All ticket requests must contain at least 1 adult");
+
+        ticketService.purchaseTickets(VALID_ACCOUNT_ID, childTickets);
+    }
+
+
+
+    @Test
     public void given_InfantAndChildAndAnAdultTicketRequests_When_CallingPurchaseTickets_Then_InfantTicketsDoNotIncreasePrice(){
         TicketTypeRequest adultTicketRequest = new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 5);
         TicketTypeRequest childTicketRequest = new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 3);
